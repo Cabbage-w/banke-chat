@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1789348409562,
+      "tag": "0000_curvy_johnny_blaze",
+      "breakpoints": true
+    }
+  ]
+}
