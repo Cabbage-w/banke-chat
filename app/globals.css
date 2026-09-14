@@ -5,3 +5,5 @@
 
 
 .text-link{color:var(--blue);padding:0}.guest-note{font-size:12px;color:#8795a8;line-height:1.8;margin-top:16px}
+
+.auth-tabs{display:flex;gap:5px;background:#f2f5fa;border-radius:10px;padding:4px;margin:18px 0}.auth-tabs button{flex:1;padding:9px;border-radius:7px;color:#77869c;font-size:14px}.auth-tabs .chosen{background:white;color:var(--blue);box-shadow:0 2px 6px #1025400a}.logout-button{width:100%;margin-top:16px;padding:10px;font-size:14px;color:#b14d4d;border-top:1px solid var(--line)}

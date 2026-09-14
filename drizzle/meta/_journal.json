@@ -15,6 +15,13 @@
       "when": 1789349333209,
       "tag": "0001_awesome_riptide",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1789350252006,
+      "tag": "0002_violet_puff_adder",
+      "breakpoints": true
     }
   ]
 }

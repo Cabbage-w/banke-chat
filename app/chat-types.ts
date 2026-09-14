@@ -22,6 +22,7 @@ async function request(path:string,body?:Record<string,string>) {
   return data;
 }
 export function api(path="",body?:Record<string,string>) { return request("/api/chat"+path,body); }
-export function enterChat(name:string) { return request("/api/session",{name}); }
+export function enterChat(action:"register"|"login",username:string,password:string,confirmPassword="") { return request("/api/session",{action,username,password,confirmPassword}); }
+export function leaveChat() { return request("/api/session",{action:"logout"}); }
 export function clockTime(t:number){return new Date(t).toLocaleTimeString("zh-CN",{hour:"2-digit",minute:"2-digit"});}
 

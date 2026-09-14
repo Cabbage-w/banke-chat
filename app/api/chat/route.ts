@@ -6,7 +6,8 @@ export function OPTIONS(request: Request) { return reply(request,null,allowedOri
 export async function GET(request: Request) {
   const json=(data:unknown,status=200)=>reply(request,data,status);
   try {
-    const user = await getChatUser(request); if (!user) return json({error:"请先填写昵称进入聊天"},401);
+    const user = await getChatUser(request); if (!user) return json({error:"请先登录账号"},401);
+    if (!user.account) return json({error:"请注册账号密码，以保留并继续使用原有聊天记录"},428);
     const db = database(), url = new URL(request.url), room = url.searchParams.get("room");
     if (room) {
       const member = await db.prepare("SELECT 1 FROM members WHERE room=? AND user=?").bind(room,user.userId).first();
@@ -25,7 +26,8 @@ export async function POST(request: Request) {
   const json=(data:unknown,status=200)=>reply(request,data,status);
   try {
     if (!allowedOrigin(request)) return json({error:"请求来源无效"},403);
-    const user = await getChatUser(request); if (!user) return json({error:"请先填写昵称进入聊天"},401);
+    const user = await getChatUser(request); if (!user) return json({error:"请先登录账号"},401);
+    if (!user.account) return json({error:"请注册账号密码，以保留并继续使用原有聊天记录"},428);
     if (Number(request.headers.get("content-length")) > 16000) return json({error:"内容过长"},413);
     const b = await readBody(request); const db = database(), uid=user.userId;
     if (b.action === "init" || b.action === "profile") {
@@ -64,6 +66,7 @@ export async function POST(request: Request) {
     return json({error:"未知操作"},400);
   } catch (e) { console.error(e); return json({error:"操作未完成，请保留内容并重试。"},503); }
 }
+
 
 
 
