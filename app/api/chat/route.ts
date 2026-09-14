@@ -1,10 +1,12 @@
-import { getChatGPTUser } from "../../chatgpt-auth";
+import { getChatUser } from "../../session-auth";
+import { allowedOrigin, readBody, reply } from "../http";
 import { database } from "../../../db/raw";
 export const dynamic = "force-dynamic";
-const json = (data: unknown, status = 200) => Response.json(data, {status,headers:{"Cache-Control":"no-store"}});
+export function OPTIONS(request: Request) { return reply(request,null,allowedOrigin(request)?204:403); }
 export async function GET(request: Request) {
+  const json=(data:unknown,status=200)=>reply(request,data,status);
   try {
-    const user = await getChatGPTUser(); if (!user) return json({error:"请先登录后聊天"},401);
+    const user = await getChatUser(request); if (!user) return json({error:"请先填写昵称进入聊天"},401);
     const db = database(), url = new URL(request.url), room = url.searchParams.get("room");
     if (room) {
       const member = await db.prepare("SELECT 1 FROM members WHERE room=? AND user=?").bind(room,user.userId).first();
@@ -20,11 +22,12 @@ export async function GET(request: Request) {
   } catch (e) { console.error(e); return json({error:"聊天暂时无法连接，请稍后重试。"},503); }
 }
 export async function POST(request: Request) {
+  const json=(data:unknown,status=200)=>reply(request,data,status);
   try {
-    if (request.headers.get("origin") && request.headers.get("origin") !== new URL(request.url).origin) return json({error:"请求来源无效"},403);
-    const user = await getChatGPTUser(); if (!user) return json({error:"请先登录后聊天"},401);
+    if (!allowedOrigin(request)) return json({error:"请求来源无效"},403);
+    const user = await getChatUser(request); if (!user) return json({error:"请先填写昵称进入聊天"},401);
     if (Number(request.headers.get("content-length")) > 16000) return json({error:"内容过长"},413);
-    const b = await request.json() as Record<string,string>; const db = database(), uid=user.userId;
+    const b = await readBody(request); const db = database(), uid=user.userId;
     if (b.action === "init" || b.action === "profile") {
       const name = b.name?.trim() || user.fullName?.slice(0,24) || "新朋友";
       if (name.length>24) return json({error:"昵称最多 24 个字"},400);
@@ -61,5 +64,6 @@ export async function POST(request: Request) {
     return json({error:"未知操作"},400);
   } catch (e) { console.error(e); return json({error:"操作未完成，请保留内容并重试。"},503); }
 }
+
 
 
