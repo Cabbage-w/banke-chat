@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>半刻 · 后端迁移上线清单</title>
+<style>
+  :root{
+    --ink:#2c3a46; --sub:#6b7c8a; --line:#e3ebf2; --bg:#f6f9fc;
+    --blue:#5e93b8; --blue-soft:#eaf2f8; --peach:#f6cfc4; --pink-soft:#fdf1ed;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:"Poppins","PingFang SC","Microsoft YaHei",sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.7; padding:32px 16px 80px;
+  }
+  .wrap{max-width:760px;margin:0 auto}
+  header.hero{margin-bottom:28px}
+  .eyebrow{font-size:12px;letter-spacing:.35em;color:var(--blue);font-weight:600;margin-bottom:8px}
+  h1{font-size:26px;font-weight:600}
+  .hero p{color:var(--sub);font-size:14px;margin-top:6px}
+  .card{
+    background:#fff;border:1px solid var(--line);border-radius:20px;
+    padding:22px 24px;margin-bottom:18px;
+    box-shadow:0 6px 24px rgba(94,147,184,.07);
+  }
+  .card h2{font-size:15px;font-weight:600;color:var(--blue);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .card h2 .no{background:var(--blue-soft);border-radius:8px;padding:1px 9px;font-size:12px}
+  ol{list-style:none}
+  li.step{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line);align-items:flex-start}
+  li.step:last-child{border-bottom:none}
+  li.step input[type=checkbox]{margin-top:7px;accent-color:var(--blue);width:16px;height:16px;flex:none;cursor:pointer}
+  .step-body{font-size:14px}
+  .step-body b{font-weight:600}
+  .step-body .note{color:var(--sub);font-size:12.5px;margin-top:2px}
+  code{
+    background:var(--blue-soft);color:#3c6e94;border-radius:6px;
+    padding:1px 7px;font-family:Consolas,Menlo,monospace;font-size:12.5px;
+  }
+  .pill{display:inline-block;background:var(--pink-soft);border:1px solid var(--peach);color:#b06a55;border-radius:999px;padding:0 10px;font-size:12px;margin-left:6px}
+  .warn{background:#fff9f0;border:1px solid #f2e2c4;border-radius:14px;padding:12px 16px;font-size:13px;color:#8a6d3b;margin-top:12px}
+  .ok-line{margin-top:18px;padding:12px 16px;border-radius:14px;background:var(--blue-soft);color:#3c6e94;font-size:13px;display:none}
+  footer{color:var(--sub);font-size:12px;text-align:center;margin-top:28px}
+  @media print{body{background:#fff}.card{box-shadow:none;page-break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">BANKE · 半刻聊天室</div>
+    <h1>后端迁移上线清单</h1>
+    <p>旧后端（chatgpt.site）公网被 403 拦截，现迁移到腾讯云 CloudBase 免费体验版 —— 0 元、实名不绑卡、国内手机可访问。新后端代码已写好并通过 14 项本地测试。</p>
+  </header>
+
+  <div class="card">
+    <h2><span class="no">A</span>开通环境（约 10 分钟 · 一次性）</h2>
+    <ol>
+      <li class="step"><input type="checkbox"><div class="step-body"><b>注册腾讯云</b>：打开 <code>cloud.tencent.com</code>，微信扫码注册 / 登录。<div class="note">国内手机号即可。</div></div></li>
+      <li class="step"><input type="checkbox"><div class="step-body"><b>个人实名认证</b>：右上角头像 → 账号信息 → 实名认证 → 个人认证。<div class="note">身份证 + 人脸识别，免费，<b>不需要绑银行卡</b>。</div></div></li>
+      <li class="step"><input type="checkbox"><div class="step-body"><b>开通云开发 CloudBase</b>：搜索「云开发」→ 开通 → 选 <b>免费体验版</b>（0 元/月，每月 3000 资源点）→ 地域选上海或广州。<div class="note">有效期 6 个月，到期前 1 个月在控制台点「续期」，0 元续 6 个月。</div></div></li>
+      <li class="step"><input type="checkbox"><div class="step-body"><b>记下环境 ID</b>：形如 <code>banke-8g0xxxxx</code>，发给我。<div class="note">控制台首页就有。</div></div></li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2><span class="no">B</span>部署后端（约 5 分钟）</h2>
+    <div class="warn" style="margin:0 0 14px;background:var(--blue-soft);border-color:#c9dcea;color:#3c6e94">✅ 环境已开通：环境 ID <code>cabbage-1122-d1gzd7mpm1b265a2c</code>（上海 · 体验版 · 到期 2027-03-15）。前端已重建并提交，<b>还需你在自己的终端执行一次 <code>git push origin main</code></b>（目录 <code>E:\Codex项目\2026-09-14\ban</code>），我的沙箱推不出去。</div>
+    <ol>
+      <li class="step"><input type="checkbox"><div class="step-body"><b>新建云函数</b>：控制台 → 云函数 → 新建云函数。函数名 <code>api</code>，运行环境 <b>Node.js 18.15</b>，内存 256MB，超时 5 秒。</div></li>
+      <li class="step"><input type="checkbox"><div class="step-body"><b>上传代码包</b>：函数详情 → 函数代码 → 本地上传 ZIP → 选择 <code>E:\Codex项目\2026-09-14\ban\cloudbase\banke-api.zip</code> → 勾选「自动安装依赖」→ 保存并部署。<div class="note">包里就是写好的 4 个文件：index.js / api-core.js / store.js / package.json。</div></div></li>
+      <li class="step"><input type="checkbox"><div class="step-body"><b>配置 HTTP 访问服务</b>：环境配置 → HTTP 访问服务 → 新建。路径 <code>/api</code>，关联资源选云函数 <code>api</code>，鉴权选<b>免鉴权（无需登录）</b>，开启「路径透传」。</div></li>
+      <li class="step"><input type="checkbox"><div class="step-body"><b>自测后端</b>：浏览器打开 <code>https://你的环境ID.app.tcloudbase.com/api/session</code><div class="note">看到 JSON（哪怕是报错文字）就说明后端活了。</div></div></li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2><span class="no">C</span>前端切换（5 分钟 · 大部分我来做）</h2>
+    <ol>
+      <li class="step"><input type="checkbox"><div class="step-body"><b>把环境 ID 发给我</b> → 我重新构建前端，把 API 指到新后端，并给你推送命令。</div></li>
+      <li class="step"><input type="checkbox"><div class="step-body"><b>推送到 GitHub Pages</b>：运行我给的 git 命令（约 2 条）。</div></li>
+      <li class="step"><input type="checkbox"><div class="step-body"><b>手机验收</b>：打开 <code>cabbage-w.github.io/banke-chat/</code> 强制刷新 → 注册账号 → 建房 → 复制邀请链接发给朋友。<span class="pill">完成 🎉</span></div></li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2><span class="no">D</span>注意与说明</h2>
+    <ol>
+      <li class="step"><input type="checkbox" checked disabled><div class="step-body"><b>免费额度</b>：每月 3000 资源点，够 2–5 个朋友日常聊天；月底用尽会暂停到下月 1 日，不扣费。</div></li>
+      <li class="step"><input type="checkbox" checked disabled><div class="step-body"><b>默认域名</b>：<code>*.app.tcloudbase.com</code> 是腾讯备案的域名，国内可访问；有频率限制和 6 个月有效期，到 HTTP 访问服务里点「续期」即可（免费）。自用阶段完全够。</div></li>
+      <li class="step"><input type="checkbox" checked disabled><div class="step-body"><b>旧数据</b>：旧后端一直被 403 拦截，公网从未产生真实聊天数据，无需迁移，直接全新开始。</div></li>
+      <li class="step"><input type="checkbox" checked disabled><div class="step-body"><b>安全</b>：与原版一致 —— 密码 bcrypt 加盐哈希、会话令牌只存哈希、消息仅房间成员可见、邀请链接即钥匙。</div></li>
+    </ol>
+    <div class="warn">⚠️ 如果第 B-3 步发现免费环境没有「HTTP 访问服务」入口，截图发我，我们换 B 计划（Cloudflare + 便宜域名，约 ¥10/年）。</div>
+    <div class="ok-line" id="okLine">🎉 全部完成！把环境 ID 发我，我来收尾前端。</div>
+  </div>
+
+  <footer>半刻 · 给交流，留半刻。清单由 WorkBuddy 生成 · 2026-09-15</footer>
+</div>
+<script>
+  document.querySelectorAll('input[type=checkbox]').forEach(cb=>{
+    cb.addEventListener('change',()=>{
+      const boxes=[...document.querySelectorAll('.card input[type=checkbox]')];
+      if(boxes.every(b=>b.checked)) document.getElementById('okLine').style.display='block';
+      else document.getElementById('okLine').style.display='none';
+    });
+  });
+</script>
+</body>
+</html>

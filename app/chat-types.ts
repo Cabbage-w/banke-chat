@@ -2,7 +2,11 @@ export type Profile={id:string;name:string};
 export type Room={id:string;name:string;description:string;owner:string;token:string;created:number;lastMessage?:string;lastTime?:number};
 export type Message={seq:number;id:string;room:string;user:string;name:string;body:string;created:number};
 declare const __BANKE_API_ORIGIN__: string | undefined;
-const origin = typeof __BANKE_API_ORIGIN__ === "string" ? __BANKE_API_ORIGIN__ : "";
+function resolveApiOrigin(): string {
+  const compiled = typeof __BANKE_API_ORIGIN__ === "string" ? __BANKE_API_ORIGIN__ : "";
+  try { return localStorage.getItem("banke-api-origin") || compiled; } catch { return compiled; }
+}
+const origin = resolveApiOrigin();
 let memoryToken = "";
 export function getSessionToken() {
   if (memoryToken) return memoryToken;

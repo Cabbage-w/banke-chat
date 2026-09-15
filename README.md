@@ -15,6 +15,17 @@ GitHub Pages 托管前端静态网页；消息 API 和数据库运行在在线 W
 
 当前 GitHub Pages 已托管前端，但现有 Sites 后端在公网访问测试中返回 Cloudflare 403。账号功能无法绕过该限制；需要可公开访问的后端托管环境才能保证好友正常使用。
 
+## 后端迁移（CloudBase 版，2026-09）
+
+`cloudbase/` 目录包含迁移到腾讯云 CloudBase 免费体验版的完整后端（云函数 + 云数据库，行为与 Worker/D1 版对齐，14 项本地测试全通过）：
+
+- `functions/api/`：云函数源码（index.js 入口、api-core.js 业务逻辑、store.js CloudBase 适配器、memory-store.js 测试用内存实现）
+- `test/run-tests.cjs`：本地行为测试，`node cloudbase/test/run-tests.cjs`
+- `banke-api.zip`：控制台上传包（勾选自动安装依赖）
+- `上线清单.html`：开通 → 部署 → 上线全流程清单
+
+前端 `BANKE_API_ORIGIN` 支持构建时注入，也支持浏览器 `localStorage["banke-api-origin"]` 运行时覆盖。
+
 ## 本地开发
 
 需要 Node.js 22.13 或更新版本。

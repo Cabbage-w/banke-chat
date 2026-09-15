@@ -1,0 +1,10 @@
+{
+  "name": "banke-api",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "dependencies": {
+    "@cloudbase/node-sdk": "^4.1.1",
+    "bcryptjs": "3.0.3"
+  }
+}

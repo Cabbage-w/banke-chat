@@ -1,0 +1,15 @@
+{
+  "envId": "替换为你的环境ID",
+  "functionRoot": "./functions",
+  "functions": [
+    {
+      "name": "api",
+      "handler": "index.main",
+      "runtime": "Nodejs18.15",
+      "timeout": 5,
+      "memory": 256,
+      "installDependency": true,
+      "envVariables": {}
+    }
+  ]
+}
